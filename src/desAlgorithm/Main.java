@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
  */
-package sample;
+package desAlgorithm;
 
 import java.io.InputStream;
 import java.util.logging.Level;

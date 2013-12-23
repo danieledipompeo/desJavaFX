@@ -1,4 +1,4 @@
-package sample;
+package desAlgorithm;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,7 +49,6 @@ public class EncryptionController implements Initializable {
         this.application.gotoDecrypt();
     }
 
-
     /**
      * It shall be used to set the current main scene
      * @param application
@@ -61,7 +60,6 @@ public class EncryptionController implements Initializable {
     public Main getApp(){
         return this.application;
     }
-
 
     /**
      * It shall be used to set the text on EncryptTextArea in main.fxml

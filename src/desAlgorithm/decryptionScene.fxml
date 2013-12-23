@@ -8,7 +8,7 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="519.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.DecryptionController">
+            xmlns="http://javafx.com/javafx/2.2" fx:controller="desAlgorithm.DecryptionController">
     <children>
         <TextArea fx:id="encryptionTextArea" layoutX="14.0" layoutY="14.0" prefWidth="572.0" wrapText="true"/>
         <TextArea fx:id="plainedTextArea" layoutX="14.0" layoutY="260.0" prefWidth="572.0" visible="false"
