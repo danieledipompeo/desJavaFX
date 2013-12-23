@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="519.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/2.2" fx:controller="sample.DecryptionController">
+    <children>
+        <TextArea fx:id="encryptionTextArea" layoutX="14.0" layoutY="14.0" prefWidth="572.0" wrapText="true"/>
+        <TextArea fx:id="plainedTextArea" layoutX="14.0" layoutY="260.0" prefWidth="572.0" visible="false"
+                  wrapText="true"/>
+        <Button fx:id="decryptionMessageBtn" layoutX="218.0" layoutY="208.0" mnemonicParsing="false"
+                text="Decripta il messaggio" onAction="#dencrypt"/>
+    </children>
+</AnchorPane>
