@@ -4,6 +4,7 @@
 package desAlgorithm;
 
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -26,6 +27,7 @@ public class Main extends Application {
 
     private TextArea encryptTextArea;
     private TextArea decryptTextArea;
+    private BigInteger encryptTextAsBigInt;
 
     /**
      * @param args the command line arguments
@@ -48,6 +50,9 @@ public class Main extends Application {
         }
     }
 
+    /**
+     *
+     */
     private void gotoEncrypt() {
         try {
             EncryptionController encryption = (EncryptionController) replaceSceneContent("main.fxml");
@@ -57,6 +62,9 @@ public class Main extends Application {
         }
     }
 
+    /**
+     *
+     */
     public void gotoDecrypt() {
         try {
             DecryptionController decryption = (DecryptionController) replaceSceneContent("decryptionScene.fxml");
@@ -67,11 +75,20 @@ public class Main extends Application {
         }
     }
 
-
+    /**
+     *
+     * @param textArea
+     */
     public void setEncryptedTextArea(TextArea textArea){
         this.encryptTextArea = textArea;
     }
 
+    /**
+     *
+     * @param fxml
+     * @return
+     * @throws Exception
+     */
     private Initializable replaceSceneContent(String fxml) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         InputStream in = Main.class.getResourceAsStream(fxml);
@@ -87,5 +104,12 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.sizeToScene();
         return (Initializable) loader.getController();
+    }
+
+    public void setEncryptedWordAsBigInt(BigInteger result) {
+        this.encryptTextAsBigInt = result;
+    }
+    public BigInteger getEncryptedWordAsBigInt() {
+        return this.encryptTextAsBigInt;
     }
 }

@@ -4,10 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
+import java.math.BigInteger;
 import java.net.URL;
+import java.util.BitSet;
 import java.util.ResourceBundle;
+
 
 public class EncryptionController implements Initializable {
 
@@ -21,6 +25,8 @@ public class EncryptionController implements Initializable {
     private TextArea encryptedTextArea;
     @FXML
     private TextArea plainedTextArea;
+    @FXML
+    private Label testLabel;
 
 
     @Override
@@ -35,12 +41,34 @@ public class EncryptionController implements Initializable {
     @FXML
     protected void encrypt(ActionEvent event){
         String plainedText = this.plainedTextArea.getText();
-        this.encryptedTextArea.setText(plainedText);
+
+        BigInteger result = DesAlgorithm.encrypt(new BigInteger(plainedText.getBytes()));
+
+        /**
+         * Save the result of the encryption algorithm in the main application
+         * to send the encrypted message to the recipient
+         */
+        this.application.setEncryptedWordAsBigInt(result);
+
+        // *****************************************************************************
+
+        DesAlgorithm.expansionFunction("011001");
+
+        System.out.println("test risultato sBox: "+DesAlgorithm.sBoxOneResult(Integer.parseInt("0101",2))
+                +DesAlgorithm.sBoxTwoResult(Integer.parseInt("0101",2)) );
+
+
+        // *****************************************************************************
+
+        /**
+         * It shows the result of the encryption algorithm like a string
+         */
+        this.encryptedTextArea.setText(new String(result.toString()));
         this.encryptedTextArea.setVisible(true);
     }
 
     /**
-     * onAction from the main.fxml file under the sendMessage button
+     * onAction from the main.fxml file after action on sendMessage button
      * change the scene on the application
      */
     @FXML
@@ -72,5 +100,4 @@ public class EncryptionController implements Initializable {
     public TextArea getEncryptedTextArea(){
         return this.encryptedTextArea;
     }
-
 }

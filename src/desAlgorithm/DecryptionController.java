@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
+import java.math.BigInteger;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,9 +30,10 @@ public class DecryptionController implements Initializable {
 
     @FXML
     protected void dencrypt(ActionEvent event){
-        String encryptedText = this.encryptionTextArea.getText();
 
-        this.plainedTextArea.setText(encryptedText);
+        this.plainedTextArea.setText(new String(
+                DesAlgorithm.encrypt(this.application.getEncryptedWordAsBigInt()).toByteArray()
+        ));
         this.plainedTextArea.setVisible(true);
     }
 
