@@ -4,7 +4,6 @@
 package desAlgorithm;
 
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -27,7 +26,7 @@ public class Main extends Application {
 
     private TextArea encryptTextArea;
     private TextArea decryptTextArea;
-    private BigInteger encryptTextAsBigInt;
+    private String encryptText;
 
     /**
      * @param args the command line arguments
@@ -106,10 +105,10 @@ public class Main extends Application {
         return (Initializable) loader.getController();
     }
 
-    public void setEncryptedWordAsBigInt(BigInteger result) {
-        this.encryptTextAsBigInt = result;
+    public void setEncryptedWord(String result) {
+        this.encryptText = result;
     }
-    public BigInteger getEncryptedWordAsBigInt() {
-        return this.encryptTextAsBigInt;
+    public String getEncryptedWord() {
+        return this.encryptText;
     }
 }

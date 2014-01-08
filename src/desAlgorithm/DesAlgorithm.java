@@ -1,23 +1,138 @@
 package desAlgorithm;
 
-
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import java.math.BigInteger;
-import java.util.BitSet;
 
 class DesAlgorithm{
 
-    private static BigInteger key = new BigInteger(new String("pluto").getBytes());
+    //It is a 9 bit lenght
+    private static String key = "";
+
     private static String[][] sBoxOne = new String[2][8];
     private static String[][] sBoxTwo = new String[2][8];
 
     /**
      *
-     * @param wordAsBigInt
+     * @param textToEncrypt
      * @return
      */
-    public static BigInteger encrypt(BigInteger wordAsBigInt){
-       return wordAsBigInt.xor(key);
+    //public static int encrypt(String textToEncrypt){
+    public static String encrypt(String textToEncrypt){
+
+        //generates the algorithm key
+        DesAlgorithm.generateKey("010011001");
+
+        char[] textToEncryptAsArray = textToEncrypt.toCharArray();
+        char[] leftPart;
+        char[] rightPart;
+        String keyRound;
+        String xorResult;
+
+        for(int countRound=0;countRound<4;countRound++){
+
+            //calculate the round key
+            keyRound = DesAlgorithm.getKeyRound(countRound+1, key);
+
+            System.out.println("keyRound: "+keyRound);
+
+            leftPart = takeBitFromArray(textToEncryptAsArray, 0, 6);
+            System.out.println("L0: "+ new String(leftPart));
+
+            rightPart = takeBitFromArray(textToEncryptAsArray, 6, 6);
+            System.out.println("R0: "+ new String(rightPart));
+
+            System.out.println("E(R0): "+ expansionFunction(new String(rightPart)));
+
+            xorResult = xor(expansionFunction(new String(rightPart)).toCharArray(),keyRound.toCharArray());
+
+            System.out.println("F(R0,k["+countRound+"]): "+ xorResult);
+
+            System.out.println("SBox1 result: "+ sBoxOneResult(takeBitFromArray(xorResult.toCharArray(),0,4)));
+            System.out.println("SBox2 result: "+ sBoxTwoResult(takeBitFromArray(xorResult.toCharArray(), 4, 4)));
+
+            String feistelFunction = sBoxOneResult(takeBitFromArray(xorResult.toCharArray(),0,4))+
+                    sBoxTwoResult(takeBitFromArray(xorResult.toCharArray(),4,4));
+            System.out.println("(SBox1+SBox2): "+ feistelFunction);
+
+            String roundResult = xor(leftPart,feistelFunction.toCharArray());
+            System.out.println("(L0 xor feistelFunction): "+ roundResult);
+
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(rightPart);
+            sb.append(roundResult);
+            String textToEncryptAfterRound = new String(sb);
+            System.out.println("textToEncrypt after round: "+ textToEncryptAfterRound);
+
+            textToEncryptAsArray = textToEncryptAfterRound.toCharArray();
+        }
+
+        return new String("pippo");
     }
+
+    /**
+     *
+     * @param firstWordAsArray
+     * @param secondWordAsArray
+     * @return
+     */
+    private static String xor(char[] firstWordAsArray, char[]secondWordAsArray){
+
+        char[] result = new char[firstWordAsArray.length];
+
+        for(int i=0;i<firstWordAsArray.length;i++){
+            if(firstWordAsArray[i] == secondWordAsArray[i] ){
+                result[i]='0';
+            }
+            else{
+                result[i]='1';
+            }
+
+            System.out.println("method xor: "+new String(result));
+        }
+        return new String(result);
+    }
+
+    /**
+     *
+     * @param text
+     * @param from
+     * @return
+     */
+    private static char[] takeBitFromArray(char[] text, int from, int lenght){
+        char[] backValue = new char[lenght];
+        System.arraycopy(text,from, backValue, 0, lenght);
+        return backValue;
+    }
+
+    /**
+     *
+     * @param round
+     * @param text
+     * @return
+     */
+    private static String getKeyRound(int round, String text){
+
+        char[] stringToCharArray = text.toCharArray();
+
+        char[] keyRound = new char[8];
+
+        //takes the first i-simo bits of the key algorithm to generate the key round i-simo
+        for(int i=round, j=0;i<stringToCharArray.length && j<8;i++,j++){
+            keyRound[j] = stringToCharArray[i];
+        }
+
+        System.out.println("keyRound: "+new String(keyRound));
+
+        for(int i=(stringToCharArray.length-round), j=0;i<keyRound.length;i++,j++){
+            keyRound[i] = stringToCharArray[j];
+        }
+
+        System.out.println("keyRound completo: "+new String(keyRound));
+
+        return new String(keyRound);
+    }
+
 
     /**
      * this is the expansion function of the DES algorithm, expands the
@@ -47,21 +162,30 @@ class DesAlgorithm{
      * @param value
      * @return
      */
-    public static String sBoxOneResult(int value){
+    private static String sBoxOneResult(char[] value){
         DesAlgorithm.setsBoxOne();
-        return sBoxOne[value >>> 3][value & 0x7];
+        char[] secondColumn = takeBitFromArray(value, 1, 3);
+        return sBoxOne[Integer.parseInt(new String(takeBitFromArray(value,0,1)),2)][Integer.parseInt(new String(secondColumn),2)];
     }
 
-    public static String sBoxTwoResult(int value){
+    private static String sBoxTwoResult(char[] value){
         DesAlgorithm.setsBoxTwo();
-        return sBoxTwo[value >>> 3][value & 0x7];
+        char[] secondColumn = takeBitFromArray(value, 1, 3);
+        return sBoxTwo[Integer.parseInt(new String(takeBitFromArray(value,0,1)),2)][Integer.parseInt(new String(secondColumn),2)];
     }
 
-    public static void setKey(String keyWord){
-        key = new BigInteger(keyWord.getBytes());
+    /**
+     * This method produces a random key about 12 bits
+     */
+    public static void generateKey(String keyAsBinaryString){
+        key = keyAsBinaryString;
     }
 
-    public static BigInteger getKey(){
+    public static void setKey(int keyWord){
+        key = Integer.toBinaryString(keyWord);
+    }
+
+    public static String getKey(){
         return key;
     }
 
@@ -104,5 +228,4 @@ class DesAlgorithm{
         sBoxTwo[1][6] = "001";
         sBoxTwo[1][7] = "100";
     }
-
 }

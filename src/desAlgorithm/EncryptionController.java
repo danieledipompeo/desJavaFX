@@ -7,9 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-import java.math.BigInteger;
 import java.net.URL;
-import java.util.BitSet;
 import java.util.ResourceBundle;
 
 
@@ -42,21 +40,19 @@ public class EncryptionController implements Initializable {
     protected void encrypt(ActionEvent event){
         String plainedText = this.plainedTextArea.getText();
 
-        BigInteger result = DesAlgorithm.encrypt(new BigInteger(plainedText.getBytes()));
+        //String result = Integer.toBinaryString(DesAlgorithm.encrypt(plainedText));
+        //String result = Integer.toBinaryString(DesAlgorithm.encrypt("101001100111"));
+        String result = DesAlgorithm.encrypt("101001100111");
 
         /**
          * Save the result of the encryption algorithm in the main application
          * to send the encrypted message to the recipient
          */
-        this.application.setEncryptedWordAsBigInt(result);
+        this.application.setEncryptedWord(result);
 
         // *****************************************************************************
 
         DesAlgorithm.expansionFunction("011001");
-
-        System.out.println("test risultato sBox: "+DesAlgorithm.sBoxOneResult(Integer.parseInt("0101",2))
-                +DesAlgorithm.sBoxTwoResult(Integer.parseInt("0101",2)) );
-
 
         // *****************************************************************************
 
