@@ -30,9 +30,10 @@ public class DecryptionController implements Initializable {
 
     @FXML
     protected void dencrypt(ActionEvent event){
-
-        //this.plainedTextArea.setText( Integer.toBinaryString(DesAlgorithm.encrypt("0")));
         this.plainedTextArea.setVisible(true);
+        String result = DesAlgorithm.decrypt(this.encryptionTextArea.getText());
+        this.plainedTextArea.setText(result);
+
     }
 
     @FXML

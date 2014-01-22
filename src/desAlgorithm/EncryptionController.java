@@ -15,10 +15,8 @@ public class EncryptionController implements Initializable {
 
     @FXML
     private Main application;
-
     @FXML
     private Button encryption;
-
     @FXML
     private TextArea encryptedTextArea;
     @FXML
@@ -40,9 +38,8 @@ public class EncryptionController implements Initializable {
     protected void encrypt(ActionEvent event){
         String plainedText = this.plainedTextArea.getText();
 
-        //String result = Integer.toBinaryString(DesAlgorithm.encrypt(plainedText));
-        //String result = Integer.toBinaryString(DesAlgorithm.encrypt("101001100111"));
-        String result = DesAlgorithm.encrypt("101001100111");
+
+        String result = DesAlgorithm.encrypt(toBinaryString(plainedText));
 
         /**
          * Save the result of the encryption algorithm in the main application
@@ -50,17 +47,30 @@ public class EncryptionController implements Initializable {
          */
         this.application.setEncryptedWord(result);
 
-        // *****************************************************************************
-
-        DesAlgorithm.expansionFunction("011001");
-
-        // *****************************************************************************
-
         /**
          * It shows the result of the encryption algorithm like a string
          */
         this.encryptedTextArea.setText(new String(result.toString()));
         this.encryptedTextArea.setVisible(true);
+    }
+
+    private String toBinaryString(String str){
+        byte[] bytes = str.getBytes();
+        StringBuilder binary = new StringBuilder();
+        for (byte b : bytes)
+        {
+            int val = b;
+            for (int i = 0; i < 8; i++)
+            {
+                binary.append((val & 128) == 0 ? 0 : 1);
+                val <<= 1;
+            }
+        }
+        String back = new String(binary);
+        System.out.println("****** to binary string *******");
+        System.out.println(back);
+        System.out.println("****** to binary string *******");
+        return back;
     }
 
     /**

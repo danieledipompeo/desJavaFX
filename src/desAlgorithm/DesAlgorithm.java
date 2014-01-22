@@ -10,6 +10,7 @@ class DesAlgorithm{
 
     private static String[][] sBoxOne = new String[2][8];
     private static String[][] sBoxTwo = new String[2][8];
+    private static int maxRoundNumber = 4;
 
     /**
      *
@@ -27,47 +28,189 @@ class DesAlgorithm{
         char[] rightPart;
         String keyRound;
         String xorResult;
+        String textToEncryptAfterRound = "goofy";
 
-        for(int countRound=0;countRound<4;countRound++){
+        System.out.println("@@@@@@@@@@@ START Encrypt @@@@@@@@@@@");
 
-            //calculate the round key
-            keyRound = DesAlgorithm.getKeyRound(countRound+1, key);
+        int textToEncryptAsArrayLenght = textToEncryptAsArray.length;
 
-            System.out.println("keyRound: "+keyRound);
+        char[] test = new char[12];
+        char[] aux = new char[textToEncryptAsArrayLenght];
 
-            leftPart = takeBitFromArray(textToEncryptAsArray, 0, 6);
-            System.out.println("L0: "+ new String(leftPart));
+        for(int j=0; j < (textToEncryptAsArrayLenght/12); j++)
+        {
+            System.arraycopy(textToEncryptAsArray,(j*12), test, 0, 12);
 
-            rightPart = takeBitFromArray(textToEncryptAsArray, 6, 6);
-            System.out.println("R0: "+ new String(rightPart));
+            for(int countRound=0;countRound < maxRoundNumber;countRound++){
 
-            System.out.println("E(R0): "+ expansionFunction(new String(rightPart)));
+                //calculate the round key
+                keyRound = DesAlgorithm.getKeyRound(countRound+1, key);
 
-            xorResult = xor(expansionFunction(new String(rightPart)).toCharArray(),keyRound.toCharArray());
+                System.out.println("\n\t ********** START ROUND "+(countRound+1)+" ****************");
+                System.out.println("\t\t keyRound: "+keyRound);
 
-            System.out.println("F(R0,k["+countRound+"]): "+ xorResult);
+                leftPart = takeBitFromArray(test, 0, 6);
+                System.out.println("\t\t L("+countRound+"): "+ new String(leftPart));
 
-            System.out.println("SBox1 result: "+ sBoxOneResult(takeBitFromArray(xorResult.toCharArray(),0,4)));
-            System.out.println("SBox2 result: "+ sBoxTwoResult(takeBitFromArray(xorResult.toCharArray(), 4, 4)));
+                rightPart = takeBitFromArray(test, 6, 6);
+                System.out.println("\t\t R("+countRound+"): "+ new String(rightPart));
 
-            String feistelFunction = sBoxOneResult(takeBitFromArray(xorResult.toCharArray(),0,4))+
-                    sBoxTwoResult(takeBitFromArray(xorResult.toCharArray(),4,4));
-            System.out.println("(SBox1+SBox2): "+ feistelFunction);
+                System.out.println("\t\t E(R"+countRound+"): "+ expansionFunction(new String(rightPart)));
 
-            String roundResult = xor(leftPart,feistelFunction.toCharArray());
-            System.out.println("(L0 xor feistelFunction): "+ roundResult);
+                xorResult = xor(expansionFunction(new String(rightPart)).toCharArray(),keyRound.toCharArray());
 
+                System.out.println("\t\t E(R"+countRound+") xor K["+countRound+1+"] result: "+ xorResult);
 
-            StringBuilder sb = new StringBuilder();
+                System.out.println("\t\t SBox1 result: "+ sBoxOneResult(takeBitFromArray(xorResult.toCharArray(),0,4)));
+                System.out.println("\t\t SBox2 result: "+ sBoxTwoResult(takeBitFromArray(xorResult.toCharArray(), 4, 4)));
+
+                String feistelFunction = sBoxOneResult(takeBitFromArray(xorResult.toCharArray(),0,4))+
+                        sBoxTwoResult(takeBitFromArray(xorResult.toCharArray(),4,4));
+                System.out.println("\t\t Feistel Function result: "+ feistelFunction);
+
+                String roundResult = xor(leftPart,feistelFunction.toCharArray());
+                System.out.println("\t\t (L("+countRound+") xor Feistel Function): "+ roundResult);
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(rightPart);
+                sb.append(roundResult);
+                textToEncryptAfterRound = new String(sb);
+                System.out.println("\t\t textToEncrypt after round: "+ textToEncryptAfterRound);
+                System.out.println("\t ********** END ROUND "+(countRound+1)+" ****************");
+
+                test = textToEncryptAfterRound.toCharArray();
+            }
+            System.arraycopy(test,0,aux,(j*12),12);
+            System.out.println("risultato giro "+j+": "+new String(aux));
+        }
+        String back = new String(aux);
+        System.out.println("stringa criptata: "+back);
+
+        System.out.println("@@@@@@@@@@@ END Encrypt @@@@@@@@@@@");
+        return back;
+    }
+
+    /**
+     *
+     * @param textToEncrypt
+     * @return
+     */
+    //public static int encrypt(String textToEncrypt){
+    public static String decrypt(String textToEncrypt){
+
+        char[] leftPart;
+        String keyRound;
+        char[] rightPart;
+        String xorResult;
+        String textToEncryptAfterRound = "goofy";
+
+        //generates the algorithm key
+        DesAlgorithm.generateKey("010011001");
+        /**
+         * Is the shifting operation as first action to decrypt
+         */
+        char[] textToEncryptAsArray = textToEncrypt.toCharArray();
+
+        StringBuilder sb;
+        int textToEncryptAsArrayLenght = textToEncryptAsArray.length;
+
+        char[] test = new char[12];
+        char[] aux = new char[textToEncryptAsArrayLenght];
+
+        System.out.println("\n\n\n");
+        System.out.println("@@@@@@@@@@@ START Decrypt @@@@@@@@@@@");
+
+        for(int j=0; j < (textToEncryptAsArrayLenght/12); j++)
+        {
+            System.arraycopy(textToEncryptAsArray,(j*12), test, 0, 12);
+
+            sb = new StringBuilder();
+            leftPart = takeBitFromArray(test, 0, 6);
+            rightPart = takeBitFromArray(test, 6, 6);
             sb.append(rightPart);
-            sb.append(roundResult);
-            String textToEncryptAfterRound = new String(sb);
-            System.out.println("textToEncrypt after round: "+ textToEncryptAfterRound);
+            sb.append(leftPart);
+            String pippo = new String(sb);
+            test = pippo.toCharArray();
 
-            textToEncryptAsArray = textToEncryptAfterRound.toCharArray();
+            for(int countRound=maxRoundNumber ;countRound > 0;countRound--){
+
+                //calculate the round key
+                keyRound = DesAlgorithm.getKeyRound(countRound, key);
+
+                System.out.println("\n\t ********** START ROUND "+(countRound)+" ****************");
+                System.out.println("\t\t keyRound: "+keyRound);
+
+                leftPart = takeBitFromArray(test, 0, 6);
+                System.out.println("\t\t L("+countRound+"): "+ new String(leftPart));
+
+                rightPart = takeBitFromArray(test, 6, 6);
+                System.out.println("\t\t R("+countRound+"): "+ new String(rightPart));
+
+                System.out.println("\t\t E(R"+countRound+"): "+ expansionFunction(new String(rightPart)));
+
+                xorResult = xor(expansionFunction(new String(rightPart)).toCharArray(),keyRound.toCharArray());
+
+                System.out.println("\t\t E(R"+countRound+") xor K["+countRound+1+"] result: "+ xorResult);
+
+                System.out.println("\t\t SBox1 result: "+ sBoxOneResult(takeBitFromArray(xorResult.toCharArray(),0,4)));
+                System.out.println("\t\t SBox2 result: "+ sBoxTwoResult(takeBitFromArray(xorResult.toCharArray(), 4, 4)));
+
+                String feistelFunction = sBoxOneResult(takeBitFromArray(xorResult.toCharArray(),0,4))+
+                        sBoxTwoResult(takeBitFromArray(xorResult.toCharArray(),4,4));
+                System.out.println("\t\t Feistel Function result: "+ feistelFunction);
+
+                String roundResult = xor(leftPart,feistelFunction.toCharArray());
+                System.out.println("\t\t (L("+countRound+") xor Feistel Function): "+ roundResult);
+
+                sb = new StringBuilder();
+                sb.append(rightPart);
+                sb.append(roundResult);
+                textToEncryptAfterRound = new String(sb);
+                System.out.println("\t\t textToEncrypt after round: "+ textToEncryptAfterRound);
+                System.out.println("\t ********** END ROUND "+(countRound+1)+" ****************");
+
+                test = textToEncryptAfterRound.toCharArray();
+            }
+            /**
+             * the last shifting operation
+             */
+            sb = new StringBuilder();
+            leftPart = takeBitFromArray(test, 0, 6);
+            rightPart = takeBitFromArray(test, 6, 6);
+            sb.append(rightPart);
+            sb.append(leftPart);
+            pippo = new String(sb);
+            test = pippo.toCharArray();
+
+            System.arraycopy(test,0,aux,(j*12),12);
         }
 
-        return new String("pippo");
+        String back = new String(binary2Text(aux));
+
+        System.out.println("\t Stringa descriptata: "+back);
+        System.out.println("@@@@@@@@@@@ END Decrypt @@@@@@@@@@@");
+
+        return back;
+    }
+
+    /**
+     *
+     * @param aux
+     * @return
+     */
+    private static StringBuilder binary2Text(char[] aux){
+
+        char[] test1 = new char[8];
+        StringBuilder sb1 = new StringBuilder();
+        String strTest;
+
+        for ( int i = 0; i < aux.length;) {
+            System.arraycopy(aux,i,test1,0,8);;
+            strTest = new String(test1);
+            sb1.append( (char)Integer.parseInt( strTest, 2 ) );
+            i+=8;
+        }
+        return sb1;
     }
 
     /**
@@ -79,7 +222,7 @@ class DesAlgorithm{
     private static String xor(char[] firstWordAsArray, char[]secondWordAsArray){
 
         char[] result = new char[firstWordAsArray.length];
-
+        System.out.println("\t\t ######### START XOR OPERATION #########");
         for(int i=0;i<firstWordAsArray.length;i++){
             if(firstWordAsArray[i] == secondWordAsArray[i] ){
                 result[i]='0';
@@ -87,9 +230,9 @@ class DesAlgorithm{
             else{
                 result[i]='1';
             }
-
-            System.out.println("method xor: "+new String(result));
+            System.out.println("\t\t\t xor method: "+new String(result));
         }
+        System.out.println("\t\t ######### END XOR OPERATION #########");
         return new String(result);
     }
 
@@ -122,13 +265,13 @@ class DesAlgorithm{
             keyRound[j] = stringToCharArray[i];
         }
 
-        System.out.println("keyRound: "+new String(keyRound));
+        //System.out.println("keyRound: "+new String(keyRound));
 
         for(int i=(stringToCharArray.length-round), j=0;i<keyRound.length;i++,j++){
             keyRound[i] = stringToCharArray[j];
         }
 
-        System.out.println("keyRound completo: "+new String(keyRound));
+        //System.out.println("keyRound completo: "+new String(keyRound));
 
         return new String(keyRound);
     }
