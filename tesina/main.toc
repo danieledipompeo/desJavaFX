@@ -1,0 +1,17 @@
+\contentsline {chapter}{Contents}{i}{dummy.1}
+\contentsline {chapter}{List of Tables}{ii}{dummy.3}
+\contentsline {chapter}{\numberline {1}Algoritmi di cifratura}{1}{chapter.5}
+\contentsline {section}{\numberline {1.1}Algoritmi simmetrici}{1}{section.6}
+\contentsline {section}{\numberline {1.2}Algoritmi asimmetrici}{2}{section.8}
+\contentsline {chapter}{\numberline {2}Data Encryption Standard}{4}{chapter.9}
+\contentsline {section}{\numberline {2.1}Brevi cenni storici}{4}{section.10}
+\contentsline {section}{\numberline {2.2}L'algoritmo}{5}{section.11}
+\contentsline {paragraph}{La chiave}{5}{section*.12}
+\contentsline {paragraph}{L'algoritmo di cifratura}{6}{section*.18}
+\contentsline {paragraph}{L'agoritmo di decifratura}{7}{section*.23}
+\contentsline {paragraph}{La funzione $f(R, K_i)$}{7}{section*.24}
+\contentsline {paragraph}{Gli S-box}{7}{section*.26}
+\contentsline {section}{\numberline {2.3}Attacchi all'algoritmo}{8}{section.34}
+\contentsline {subsection}{\numberline {2.3.1}Tipologia di attacchi al sistema}{8}{subsection.35}
+\contentsline {subsection}{\numberline {2.3.2}Crittanalisi Differenziale}{10}{subsection.37}
+\contentsline {paragraph}{Esempio dell'analisi differenziale}{10}{section*.38}

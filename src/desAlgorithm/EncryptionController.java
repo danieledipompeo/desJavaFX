@@ -6,6 +6,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,11 +22,21 @@ public class EncryptionController implements Initializable {
     @FXML
     private Button encryption;
     @FXML
+    private ToggleButton generateKeyBtn;
+    @FXML
     private TextArea encryptedTextArea;
+    @FXML
+    private TextArea senderTextArea, recipientTextArea;
     @FXML
     private TextArea plainedTextArea;
     @FXML
     private Label testLabel;
+    @FXML
+    private ImageView questionMark;
+    @FXML
+    private ImageView okMark;
+    @FXML
+    private static TextArea console;
 
 
     @Override
@@ -31,13 +45,12 @@ public class EncryptionController implements Initializable {
     }
 
     /**
-     * It is used in order to encrypt the text inserted
+     * It is used in order to encrypt the text in senderTextArea
      * @param event
      */
     @FXML
     protected void encrypt(ActionEvent event){
-        String plainedText = this.plainedTextArea.getText();
-
+        String plainedText = this.senderTextArea.getText();
 
         String result = DesAlgorithm.encrypt(toBinaryString(plainedText));
 
@@ -48,10 +61,36 @@ public class EncryptionController implements Initializable {
         this.application.setEncryptedWord(result);
 
         /**
-         * It shows the result of the encryption algorithm like a string
+         *
          */
-        this.encryptedTextArea.setText(new String(result.toString()));
-        this.encryptedTextArea.setVisible(true);
+        this.recipientTextArea.setText(result);
+        this.questionMark.setVisible(true);
+    }
+
+    /**
+     *
+      * @param event
+     */
+    @FXML
+    protected void dencrypt(ActionEvent event){
+        String result = DesAlgorithm.decrypt(this.recipientTextArea.getText());
+        this.okMark.setVisible(true);
+        this.questionMark.setVisible(false);
+        this.recipientTextArea.setText(result);
+    }
+
+    @FXML
+    protected void generateKey(){
+        ConsoleController.toConsole("######### chiave generata ###############");
+        if( this.generateKeyBtn.isSelected()){
+            //this.generateKeyBtn.setText("the key is generated");
+            this.generateKeyBtn.getStyleClass().remove("padlock-open");
+            this.generateKeyBtn.getStyleClass().add("padlock-closed");
+            this.questionMark.setVisible(false);
+            this.generateKeyBtn.setDisable(true);
+        }
+
+        DesAlgorithm.generateKey();
     }
 
     private String toBinaryString(String str){
@@ -67,20 +106,8 @@ public class EncryptionController implements Initializable {
             }
         }
         String back = new String(binary);
-        System.out.println("****** to binary string *******");
-        System.out.println(back);
-        System.out.println("****** to binary string *******");
-        return back;
-    }
 
-    /**
-     * onAction from the main.fxml file after action on sendMessage button
-     * change the scene on the application
-     */
-    @FXML
-    protected void sendMessage(){
-        this.application.setEncryptedTextArea(this.encryptedTextArea);
-        this.application.gotoDecrypt();
+        return back;
     }
 
     /**

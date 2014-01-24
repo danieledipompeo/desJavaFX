@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
@@ -21,8 +22,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     private Stage stage;
-    private final double MINIMUM_WINDOW_WIDTH = 390.0;
-    private final double MINIMUM_WINDOW_HEIGHT = 500.0;
+    private final double MINIMUM_WINDOW_WIDTH = 800.0;
+    private final double MINIMUM_WINDOW_HEIGHT = 461.0;
 
     private TextArea encryptTextArea;
     private TextArea decryptTextArea;
@@ -39,11 +40,20 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             stage = primaryStage;
-            stage.setTitle("Data Encryption Standard");
+            stage.setTitle("simplified version of DES by Daniele Di Pompeo");
             stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             gotoEncrypt();
             primaryStage.show();
+
+            Stage consoleStage = new Stage();
+            Parent consoleParent = FXMLLoader.load(getClass().getResource("consoleScene.fxml"));
+            Scene consoleScene = new Scene(consoleParent);
+            consoleStage.setScene(consoleScene);
+            consoleStage.setTitle("console of S-DES");
+
+            consoleStage.show();
+
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,21 +64,8 @@ public class Main extends Application {
      */
     private void gotoEncrypt() {
         try {
-            EncryptionController encryption = (EncryptionController) replaceSceneContent("main.fxml");
+            EncryptionController encryption = (EncryptionController) replaceSceneContent("alice&bob.fxml");
             encryption.setApp(this);
-        } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     *
-     */
-    public void gotoDecrypt() {
-        try {
-            DecryptionController decryption = (DecryptionController) replaceSceneContent("decryptionScene.fxml");
-            decryption.setEncryptedTextArea(this.encryptTextArea);
-            decryption.setApp(this);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -99,7 +96,7 @@ public class Main extends Application {
         } finally {
             in.close();
         }
-        Scene scene = new Scene(page, 800, 600);
+        Scene scene = new Scene(page, 800, 461);
         stage.setScene(scene);
         stage.sizeToScene();
         return (Initializable) loader.getController();

@@ -1,0 +1,15 @@
+.padlock-open{
+     -fx-graphic: url('../img/padlock_open.png');
+ }
+
+ .padlock-closed{
+     -fx-graphic: url('../img/padlock_close.png');
+ }
+
+ .question-mark{
+     -fx-graphic: url('../img/question_mark.png');
+ }
+
+ .ok-mark{
+     -fx-graphic: url('../img/ok_mark.png');
+ }

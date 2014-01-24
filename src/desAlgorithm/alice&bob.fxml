@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" fx:id="bobAndAlice" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="461.0" prefWidth="800.0000999999975" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="desAlgorithm.EncryptionController">
+  <children>
+    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="15.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="file:/media/store/combinatoria/progetto/img/profileiconimage.png" />
+      </image>
+    </ImageView>
+    <TextArea fx:id="senderTextArea" layoutX="223.0" layoutY="167.0" prefHeight="35.0" prefWidth="325.0" wrapText="true" />
+    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="617.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+        <Image url="file:/media/store/combinatoria/progetto/img/icon-idea1-profile1.jpg" />
+      </image>
+    </ImageView>
+    <TextArea id="recei" fx:id="recipientTextArea" layoutX="287.0" layoutY="373.0" prefHeight="35.0" prefWidth="325.0" wrapText="true" />
+    <Button id="encrypt" fx:id="encryption" layoutX="379.0" layoutY="220.0" mnemonicParsing="false" onAction="#encrypt" text="send message to Alice" />
+    <Button fx:id="decryptionMessageBtn" layoutX="415.0" layoutY="426.0" mnemonicParsing="false" onAction="#dencrypt" text="receive message from Bob" />
+    <ImageView fx:id="questionMark" fitHeight="68.0" fitWidth="68.0" layoutX="658.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true" styleClass="question-mark" visible="false">
+      <image>
+        <Image url="@../../img/question_mark.png" />
+      </image>
+    </ImageView>
+    <ToggleButton fx:id="generateKeyBtn" layoutX="269.0" layoutY="259.0" minHeight="95.0" minWidth="117.0" mnemonicParsing="false" onAction="#generateKey" prefHeight="95.0" prefWidth="95.0" style="" styleClass="padlock-open" text="">
+      <stylesheets>
+        <URL value="@../../css/style.css" />
+      </stylesheets>
+    </ToggleButton>
+    <ImageView fx:id="okMark" fitHeight="68.0" fitWidth="68.0" layoutX="658.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true" styleClass="question-mark" visible="false">
+      <image>
+        <Image url="@../../img/ok_mark.png" />
+      </image>
+    </ImageView>
+    <Button layoutX="28.0" layoutY="25.0" mnemonicParsing="false" text="Ricerca esaustiva" />
+    <Button layoutX="269.0" layoutY="25.0" mnemonicParsing="false" text="ricerca differenziale" />
+  </children>
+</AnchorPane>

@@ -1,0 +1,444 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Masters/Doctoral Thesis 
+% LaTeX Template
+% Version 1.41 (9/9/13)
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original authors:
+% Steven Gunn 
+% http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/
+% and
+% Sunil Patel
+% http://www.sunilpatel.co.uk/thesis-template/
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Note:
+% Make sure to edit document variables in the Thesis.cls file
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt, a4paper, oneside]{Thesis} % Paper size, default font size and one-sided paper
+
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
+\hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue - change to black if annoying
+\title{\ttitle} % Defines the thesis title - don't touch this
+
+\begin{document}
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\setstretch{1.3} % Line spacing of 1.3
+
+% Define the page headers using the FancyHdr package and set up for one-sided printing
+\fancyhead{} % Clears all page headers and footers
+\rhead{\thepage} % Sets the right side header to show the page number
+\lhead{} % Clears the left side page header
+
+\pagestyle{fancy} % Finally, use the "fancy" page style to implement the FancyHdr headers
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % New command to make the lines in the title page
+
+% PDF meta-data
+\hypersetup{pdftitle={\ttitle}}
+\hypersetup{pdfsubject=\subjectname}
+\hypersetup{pdfauthor=\authornames}
+\hypersetup{pdfkeywords=\keywordnames}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+\textsc{\LARGE Università degli studi dell'Aquila}\\[1.5cm] % University name
+\textsc{\Large Tesina per Combinatoria }\\[0.5cm] % Thesis type
+
+\HRule \\[0.4cm] % Horizontal line
+{\huge \bfseries Crittografia a chiave Simmetrica:\\[0.6cm] Il DES}\\[0.4cm] % Thesis title
+\HRule \\[1.5cm] % Horizontal line
+ 
+\begin{minipage}{1\textwidth}
+\begin{flushleft} \large
+\emph{Author: }\href{}{Daniele Di Pompeo} % Author name - remove the \href bracket to remove the link
+\end{flushleft}
+\end{minipage}
+ 
+{\large \today}\\[4cm] % Date
+%\includegraphics{Logo} % University/department logo - uncomment to place it
+ 
+\vfill
+\end{center}
+
+\end{titlepage}
+
+\clearpage % Start a new page
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+% \begin{abstract}
+%  In questo corto documento verranno analizzati i vari algoritmi di cifratura a chiave simmetrica con un'analisi dettagliata per quanto riguarda l'algoritmo DES.
+%  \\
+% \end{abstract}
+% 
+% \clearpage % Start a new page
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+
+\pagestyle{fancy} % The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
+
+\lhead{\emph{Indice}} % Set the left side page header to "Contents"
+\tableofcontents % Write out the Table of Contents
+
+\lhead{\emph{Data Encryption Standard}} % Set the left side page header to "List of Tables"
+\listoftables % Write out the List of Tables
+% 
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+
+\pagestyle{fancy} % Return the page headers back to the "fancy" style
+
+% Include the chapters of the thesis as separate files from the Chapters folder
+% Uncomment the lines as you write the chapters
+
+\chapter{Algoritmi di cifratura}
+\section{Algoritmi simmetrici}
+La categoria degli algoritmi di cifratura a chiave segreta o detti algoritmi simmetrici prevedono che sia la fase di cifratura che di decifratura avvenga con
+l'utilizzo della stessa chiave. Ovvero il mittente ed il destinatario utilizzino la stessa chiave per lo scambio di messaggi.
+\par Gli algoritmi a chiave simmetrica si possono suddividere in due sotto gruppi:
+\begin{itemize}
+ \item \textbf{a trasposizione}: gli algoritmi che fanno parte di questa famigli prevedono la cifratura dei messaggio utilizzando tecniche anche complesse di permutazioni del testo in chiaro.
+ \item \textbf{a sostituzione}: gli algoritmi di questa famiglia a differenza di quella a trasposizione prevedono la sostituzione di ogni lettera del testo in chiaro, secondo dettagliate tecniche, 
+ con una lettera dell'alfabeto segreto
+\end{itemize}
+Tra i più famosi ed antichi algoritmi a chiave simmetrica con tecnica della sostituzione si ricorda il \textit{cifrario di cesare}. Questo cifrario venne usato dall'imperatore Cesare per inviare informazioni
+riservate alle proprie truppe durante l'epoca romana. Esendo basato su un alfabeto segreto di 26 lettere si possono creare 26 differenti cifrari utilizzando la stessa tecnica. Ad ogni lettera del testo
+in chiaro si sostituisce la corrispondente lettera dell'alfabeto segreto. La chiave di questo cifrario è data dal numero dei posti di cui è stato traslato l'alfabeto segreto.
+\par I cifrari a sostituzione possono essere suddivisi a loro volta in macro categorie che si distinguono per le tecniche di sostituzione adottate.
+Possono essere:
+\begin{itemize}
+ \item \textbf{Cifrari Monoalfabetici}: ognu lettera del testo in chiaro viene sempre cifrata con la stessa lettera dell'alfabeto segreto.
+ \begin{itemize}
+ \item \textit{Additivi}
+ \item \textit{Moltiplicativi}
+ \item \textit{Affini}
+ \end{itemize}
+ \item \textbf{Cifrari Monoalfabetici in lingue non naturali}:
+ \begin{itemize}
+  \item \textit{a flusso}: questi algoritmi prevedono la cifratura a stati dei blocchi di informazione in chiaro. Ovvero la determinata cifratura non varia al variare dei passi dell'algoritmo.
+  Prevedono la cifratura simbolo a simbolo.
+  \item \textit{a blocchi}: sono algoritmi di cifratura che prevedono la scomposizione del testo in chiaro in blocchi di lunghezza finita, che varia da algoritmo ad algoritmo. Tra i
+  principali algoritmi di annovera l'algoritmo di \textbf{Feitsel} che associa ad un testo in chiaro \textit{($S_0$,$D_0$)} un testo cifrato della stessa lunghezza 
+  \textit{($S_n$,$D_n$)}. Intorno agli inizi del 1900 la comunità crittografica si iniziava a domandare se il \textbf{DES}\footnote{analizzato nel prossimo capitolo} si potesse ancora 
+  utilizzare come standard per la cifratura. Nel 1991 \emph{Lai \& Massey} proposero una nuova idea di algoritmo di cifratura a blocchi che prese il nome di \textit{Proposed Encryption Standard}
+  con l'intento di codificare blocchi di testo in chiaro di 64bit in blocchi di testo cifrato di 64bit tramite una chiave di 128bit. Nel 1992 fu brevettato sotto il nome di \textit{IDEA} e ad oggi
+  risulta essere ancora inviolato ed è utilizzato come standard di cifratura nei software PGP.
+ \end{itemize}
+ \item \textbf{Cifrari Polialfabetici}: sono quegli algoritmi che prevedono la cifratura di ogni simbolo dell'alfabeto in chiaro tramite simboli dell'alfabeto cifrata non sempre uguali.
+ Fanno parte di questa famiglia di algoritmi:
+ \begin{itemize}
+  \item \textit{Cifrario di Alberti}
+  \item \textit{Cifrario di Bellaso}
+ \end{itemize}
+\end{itemize}
+
+
+\section{Algoritmi asimmetrici}
+Gli algoritmi a chiave pubblica o asimmetrici si differenziano dagli algoritmi a chiave simmetrica dalla metotologia di cifratura e decifratura.
+Nella famiglia degli \textit{simmetrici} un'attore capace di cifrare un messaaggio è anche capace di decifrarlo, ovvero per la comunicazione riservata di un messaggio si utilizza la stessa chiave
+sia nell'operazione di cifratura che decifratura; mentre nelle algoritmi a chiave asimmetrica non è garantita l'operazione di decifratura se si è cifrato il messaggio, e vice-versa.
+\par Questo è dovuto alla tecnica di scambio della chiave, che negli algoritmi simmetrici avviene prima dell'invio dell'informazioni mentre negli algoritmi asimmetrici invece si parte dal concetto
+che il mittente ed il destinatario siano in possesso di una coppia di chiave, una pubblica ed una privata. Sostanzialmente il mittente del messaggio cifrerà il messaggio con la chiave pubblica
+del destinatario il quale eseguirà la decifratura con la sua chiave segreta.
+\par La robustezza intrinseca degli algoritmi a chieve pubblica, o asimmetrici, è legata alla complessità di fattorizzazione in numeri primi. Risulta essere di estrema facilità il calcolo della funzione
+conoscendo i fattori primi di partenza ma risulta essere nota l'impossibilità di tornare ai fattori di partenza conoscendo la funzione generata.
+Ovvero un sistema a chiave asimmetrica deve garantire:
+\begin{itemize}
+ \item Sistema di cifratura: $D(E(m))=m$
+ \item Sistema di firma digitale: $E(D(m))=m$
+\end{itemize}
+avendo posto  $D=chiave privata, E=chiave pubblica e m=messaaggio$.
+\par Il primo algoritmo che sfrutta il principio della cifratura a chiave pubblica fu progettato nel 1976 da \emph{Diffie \& Hellmann}.
+\\Nella famiglia degli algoritmi a chiave pubblica si riportano alcuni dei più famosi:
+\begin{itemize}
+ \item \textbf{RSA}: scoperta da \emph{Rivest, Shamir, Adlemann}. L'algoritmo rende computazionalmente impossibile il calcolo della fattorizzazione della funzione di cifratura grazie all'utilizzo di 
+ numeri primi dell'ordine delle 100 cifre. Ad oggi lo standard RSA garantisce la sua inviolabilità con numeri di grandezza dell'ordine dei 2048 bit.
+ \item \textbf{Rabbin}: utilizzato per la prima volta nel 1979, basa le fondamente della sua sicurezza sulla complessità computazionale nel calcolare la radice quadrata in Zn, essendo
+ n = p*q, due primi. \'E stato dimostrato che il tempo necessario per calcolare il testo in chiaro partendo dal testo cifrato è pari alla scomposizione di n in fattori primi. 
+ \item \textbf{El-Gamal}: progettato nel 1985 basa tutta la sua sicurezza sull'utilizzo di una funzione unidirezionale a sua volta basata sull'impossibilità di calcolare un logaritmo partirtendo
+ da una funzione discreta. \'E anche noto per essere un algoritmo stocastico ovvero utilizza una generazione randomica di chiavi.
+\end{itemize}
+
+% \section{Comparazione critica tra le due tipologie}
+% Perchè scegliere un algoritmo piuttosto che un altro? Perchè conviene l'algoritmo a chiave pubblica e non quello chiave simmetrico o vice-versa?
+% Queste sono le domande più comuni che possono sorgere analizzando le due famiglie di algoritmi, cercheremo di fornire al lettore una visione critica su entrambe le famiglie
+% di algoritmi.
+% \paragraph{Algoritmi a chiave simmetrica}
+
+\chapter{Data Encryption Standard}
+In questo capitolo verrà analizzato nel dettaglio l'algoritmo a chiave simmetrica Data Encryption Standard noto come il DES
+\section{Brevi cenni storici}
+Nei primi anni del 1970 negli ambienti del ICT si presentava la necessità di utilizzare un algoritmo di cifratura che potesse essere ritenuto robusto e stabile.
+\par Nel 1973 il National Bureau Standard commissionò alla comunità crittografica internazionale la realizzazione di un algoritmo di cifratura che potesse essere usato come standard. 
+Nel 1974 dai laboratori dell'IBM fu rilasciato l'algoritmo \emph{LUCIFER}. Successivamente fu sottoposto all'analisi del NBS che solamente nel 1975 lo rese pubblico.
+Nel 1976 l'algoritmo fu standardizzato sotto il nome \emph{DES}.
+Il passaggio tra l'IBM e l'ente NBS fu gradito ad una parte della comunità crittografica dubbiosa del fatto che il NBS avesse potuto inserito delle trapdoor nell'algoritmo.
+Oltre alla critica su un possibile inserimento di trapdoor da parte del NBS fu criticato dalla comunità crittografica la scelta di utilizzare una chiave di cifratura troppo corta quindi soggetta
+a possibili attacchi rendendo l'algoritmo troppo fragile.
+\par L'algoritmo, nonostante le critiche sulla sua fragilità, risulta essere un algoritmo fortemente utilizzato nel commercio elettronico grazie alla sua estrema velocità nel cifrare e decifrare il testo
+e grazie alla sua ragionevole robustezza.qqq
+\par Solamente nel 1998 dopo un ventennio di utilizzo il DES fu sostituito dal \emph{Rijndael} sotto il nome \textbf{Advanced Encryption Standard}, che consentiva l'utilizzo di chiavi a 128, 192 e 256 bit.
+
+\section{L'algoritmo}
+Il DES fa parte della famiglia degli algoritmi a chiave simmetrica con cifratura a blocchi. Ovvero mittente e destinario utilizzano una chiave condivisa per comunicare in maniera sicura ed il testo in chiaro
+è suddiviso in blocchi di lunghezza prefissata.
+\par Per il DES i ricercatori dell'IBM scelsero di suddividere i blocchi di testo in chiaro in blocchi di 64 bit sui quali operare le operazioni per cifrare il testo.
+L'algoritmo di cifratura e decifratura prende il nome di \textit{sistema Feistel}, dal nome di un matematico che prese parte allo sviluppo di \textit{LUCIFER}, algoritmo padre del DES.
+Il DES è un cifrario binario monoalfabetico a blocchi che opera per trasposizione e sostituzione riducendo al minimo la criticità di tipo statistico e matematico. Ad oggi l'unico attacco valido 
+all'algoritmo è quello della ricerca esaustiva delle possibili chiavi. Quindi la criticità è nella lunghezza della chiave (64 bit).
+  
+\paragraph{La chiave}L'algoritmo prevede la cifratura del messaggio in chiaro tramite una chiave di \textit{64 bit} di lunghezza fissa scomposta in 9 blocchi da 8 bit ciascuno.
+Per ogni blocco l'ultimo bit è utilizzato per il controllo di disparità. Il bit di disparità viene settato ad 1 o a 0 per mantere il numero di bit 1 dispari.
+L'utilizzo del bit di disparità porta ad avere solamente \textit{56 bit} indipendenti per costruire la chiave quindi per il DES si possono creare solamente $2^{56}$ chiavi differenti.
+\par Il DES prevede la cifratura del testo tramite un meccanismo a round e per ogni round prevede la creazione di una chiave derivata dalla chiave base.
+\\Di seguito è riportato l'algoritmo per procedere al calcolo della chiave di round:
+\begin{enumerate}
+ \item \textit{Eliminazione bit parità}: il primo passo è eliminare i bit di parità inseriti precedentemente e permutare i restanti bit secondo una prefissata tabella. In output a tale procedimento si ottiene una sequenza di 
+ 56bit $(C_0,D_0)$
+ \item \textit{Operazione di shifting}: per $1\le i \le 16$ si considerano $C_i=LS_i(C_{i-1})$ e $D_i=LS_i(D_{i-1})$. Con $LS$ si intende l'operazione di left shifting di 1 o 2 bit in base alla tabella seguente
+% % % % % % %  Tabelle di scorrimento per round
+ \begin{table}[ht] 
+      \caption{Tabella di shifting della chiave di round} % title of Table 
+      \centering % used for centering table 
+      \begin{tabular}{c c c c c c c c c c c c c c c c c} % centered columns (17columns) 
+      \hline %inserts double horizontal lines 
+      Round & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16\\
+      Bit di scorrimento & 1 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 1\\           
+      \hline %inserts single line 
+      \end{tabular} 
+      \label{table:tabShiftingKey} % is used to refer this table in the text 
+%       \ref{table:tabShiftingKey}
+      \end{table}
+
+ \item \textit{Selezione di 48 bit}: dalla sequenza di 56 bit ottenuta precedentemente $C_iS_i$ si individuano i 48 bit in base alla seguente tabella ottenedo così la chiave di round $K_i$.
+ \begin{table}[ht] 
+      \caption{Tabella della permutazione della chiave di round} % title of Table 
+      \centering % used for centering table 
+      \begin{tabular}{c c c c c c c c c c c c} % centered columns (12columns) 
+      \hline %inserts double horizontal lines 
+      14 & 17 & 11 & 24 &  1 &  5 &  3 & 28 & 15 &  6 & 21 & 10 \\
+      23 & 29 & 12 &  4 & 26 &  8 & 16 &  7 & 27 & 20 & 13 &  2 \\       
+      41 & 52 & 31 & 37 & 47 & 55 & 30 & 40 & 51 & 45 & 33 & 48 \\
+      44 & 49 & 39 & 56 & 34 & 53 & 46 & 42 & 50 & 36 & 29 & 23 \\       
+      \hline %inserts single line 
+      \end{tabular} 
+      \label{table:tabPermutationKey} % is used to refer this table in the text 
+%       \ref{table:tabPermutationKey}
+      \end{table}
+ 
+\end{enumerate}
+Ogni bit della chiave iniziale K viene utilizzato in circa 14 raound su 16, questa caratteristica porta ad avere un buon sistema di cifratura.
+
+\paragraph{L'algoritmo di cifratura} L'algoritmo di cifratura del messaggio m di 64bit di lunghezza è composto da tre fasi:
+\begin{enumerate}
+ \item \textit{Permutazione Iniziale}: i bit iniziali di m sono permutati con una permutazione fissa, seguendo la tabella successiva (\autoref{table:tabPermIniz}),
+ in modo da ottenere $ m_0 = IP(m)$.
+ Vengono indicati con $L_0$, i primi 32bit del messaggio e con $R_0$ i successivi 32bit.
+      \begin{table}[ht] 
+      \caption{Permutazione iniziale} % title of Table 
+      \centering % used for centering table 
+      \begin{tabular}{c c c c c c c c c c c c c c c c} % centered columns (4 columns) 
+      \hline %inserts double horizontal lines 
+      58 & 50 & 42 & 34 & 26 & 18 & 10 & 2 & 60 & 52 & 44 & 36 & 28 & 20 & 12 & 4 \\
+      62 & 54 & 46 & 38 & 30 & 22 & 14 & 6 & 64 & 56 & 48 & 40 & 32 & 24 & 16 & 8 \\
+      57 & 49 & 41 & 33 & 25 & 17 &  9 & 1 & 59 & 51 & 43 & 35 & 27 & 19 & 11 & 3 \\
+      61 & 53 & 45 & 37 & 29 & 21 & 13 & 5 & 63 & 55 & 47 & 39 & 31 & 23 & 15 & 7 \\
+      \hline %inserts single line 
+      \end{tabular} 
+      \label{table:tabPermIniz} % is used to refer this table in the text 
+%       \ref{table:tabPermIniz}
+      \end{table}
+
+ \item \textit{16 Round}: la caratteristica del DES è legata al numero di round necessari per produrre in output il testo cifrato. Considerando $1\le i \le 16$, con i numero del round, 
+ si effettuano le seguenti operazioni:
+ \begin{itemize}
+  \item $ L_i = R_{i-1} $
+  \item $ R_i = L_{i-1} \oplus f(R_{i-1}, K_i) $
+ \end{itemize}
+ avendo definito: f come la funzione del DES, analizzata più nel dettaglio nel paragrafo successivo e $K_i$ è la chiave di round di 48 bit generata a partire dalla chiave iniziale K.
+ \item \textit{Permutazione finale}: eseguiti i 16 round si invertono i $L_{16}$ e $R_{16}$ in modo da ottenere il testo cifrato $c=IP^{-1}(R_{16}L_{16})$.
+\end{enumerate}
+L'inserimento dela permutazione iniziale sembra essere stato fatto non a fini crittografici per aumentarne la sicurezza ma solamente per migliorare l'inseirmento dei bit nei chip
+disponibili negli anni '70
+
+\paragraph{L'agoritmo di decifratura}
+\'E possibile decifrare il messaggio $c=L_{16}R_{16}$, in output all'algoritmo di cifratura, eseguendo gli stessi procedimenti per generarlo ma considerando le 
+16 chiavi $K_1,..,K_{16}$ nell'ordine inverso. 
+
+\paragraph{La funzione $f(R, K_i)$}La funzione f, detta \emph{fuzione Feistel}, è composta da una funzione di espansione $E(R)$ che trasposforma l'input R di 32bit in un output di 48bit secondo la tabella 
+seguente.
+\begin{table}[ht] 
+\caption{Permutazione di espansione} % title of Table 
+\centering % used for centering table 
+\begin{tabular}{c c c c c c c c c c c c} % centered columns (4 columns) 
+\hline %inserts double horizontal lines 
+32 & 1 & 2 & 3 & 4 & 5 & 4 & 5 & 6 & 7 & 8 & 9\\
+8 & 9 & 10 & 11 & 12 & 13 & 12 & 13 & 14 & 15 & 16 & 17\\
+16 & 17 & 18 & 19 & 20 & 21 & 20 & 21 & 22 & 23 & 24 & 25\\
+24 & 25 & 26 & 27 & 28 & 29 & 28 & 29 & 30 & 31 & 32 & 1\\
+\hline %inserts single line 
+\end{tabular} 
+\label{table:tabExpR} % is used to refer this table in the text 
+% \ref{table:tabExpR}
+\end{table}
+Quindi si calcola $E(R) \oplus K_i$ che produce un output di 48bit.
+\\Successivamente il messaaggio entra in 8 S-box che producono 8 output $C_1...C_8$ di 4 bit ognuno.
+In fine la stringa in output viene permutata secondo una specifica tabella.
+
+\paragraph{Gli S-box}Sono il cuore della funzione f del DES e permettono di ottenere la stringa cifrata.
+Ogni S-box è composto da una matrice 4x16 che prende in input la stringa di 6 bit uscente dall'operazione $E(R) \oplus K_i$.
+La stringa ottenuta Bj=b1b2...b6 consente di individuare la riga e la colonna dell'S-box$_j$ da selezionare. 
+I bit $b_1 b_6$ individuano la riga mentre i restanti bit $b_2 b_3 b_4 b_5$ individuano la colonna dell'S-box$_j$, viene così individuato il valore da selezionare dall'S-box.
+Fino alla metà degli anni '90 il procedimento e gli S-box utilizzati dall'algoritmo furono mantenuti segreti.
+
+\begin{table}[ht] 
+\caption{Esempio di un S$_i$-box} % title of Table 
+\centering % used for centering table 
+\begin{tabular}{c c c c c c c c c c c c c c c c} % centered columns (4 columns) 
+\hline %inserts double horizontal lines 
+14 & 4 & 13 & 1 & 2 & 15 & 11 & 8 & 3 & 10 & 6 & 12 & 5 & 9 & 0 & 7\\
+0 & 15 & 7 & 4 & 14 & 2 & 13 & 1 & 10 & 6 & 12 & 11 & 9 & 5 & 3 & 8\\
+4 & 1 & 14 & 8 & 13 & 6 & 2 & 11 & 15 & 12 & 9 & 7 & 3 & 10 & 5 & 0\\
+15 & 12 & 8 & 2 & 4 & 9 & 1 & 7 & 5 & 11 & 3 & 14 & 10 & 0 & 6 & 13\\
+\hline %inserts single line 
+\end{tabular} 
+\label{table:s_box} % is used to refer this table in the text 
+\end{table}
+
+Le caratteristiche degli S-box sono legate al fatto che nel 1974 erano disponibili chip dalla computazione e dalla memoria limitata. Gli S-box del DES sono:
+\begin{enumerate}
+ \item prendono in input 6 bit e produco in output 4 bit
+ \item l'output di ogni S-box non doveva assumere una qualsiasi similitudine ad una funzione lineare degli input. Se fosse accaduto ciò si sarebbe venuta a creare una situazione che avrebbe reso
+ l'algoritmo vulnerabile
+ \item Ogni riga di ogni S-box contiene esattamente i numeri da 0 a 15
+ \item dati due input ad un S-box che differiscono di un solo bit l'output prodotto deve differire di almeno di 2 bit
+ \item se due input di un S-box hanno i primi 2 bit differenti ma gli ultimi due identici i due output devono essere differenti
+ \item date le 32 coppie in ingresso con le loro relative XOR si calcolcano le XOR dei relativi output e non più di 8 XOR in output possono essere uguali. 
+\end{enumerate}
+L'ultimo punto è chiaramente una tecnica di prevenzione rispetto ad un'attacco mediante \textit{Crittanalisi differenziale}.
+
+Il DES si può considerare un buon sistema di cifratura perchè grazie alla funzione di espansione $E(R)$ in pochi round ogni bit del testo cifrato dipende da ogni bit del testo in chiaro.
+Infatti in un sistema di cifratura ottimale ogni bit di testo cifrato dovrebbero dipendere da ogni bit del testo in chiaro. 
+Ciò è ottenuto nel DES grazie all'utilizzo della funzione di espansione $E(R)$.
+
+\section{Attacchi all'algoritmo}
+LA parte di crittanalisi degli algoritmi di cifratura si basa sull'assunto che l'algoritmo di cifratura/decifratura sia noto al ``nemico``. Questo assunto è un buon punto di partenza
+in ragione del fatto che in letteratura si sono verificati episodi di algoritmi di cifratura/decifratura violati non appena divenuti di dominio pubblico.
+\par Questa ipotesi iniziale è avallata anche dal principio di \textit{Kerckhoff}, secondo cui il nemico è a conoscenza dell'intero sistema di cifratura/decifratura.
+Secondo questo assunto un sistema crittoanalitico è sicuro quanto è più complessa l'individuazione della chiave di cifratura/decifratura.
+
+\subsection{Tipologia di attacchi al sistema}
+\begin{itemize}
+ \item \textbf{Testo cifrato}: è la tipologia di attacco che nel passato veniva utilizzata per decifrare testi cifrati scritti su pergamena. 
+ \par L'attaccante ha a disposizione una collezione di testi cifrati. Si dice che l'attacco ha pieno successo se l'attaccante riesce a 
+ recuperare il corrispondente testo in chiaro o meglio se riesce a dedurre la chiave di crifratura. Sono considerati risultati positivi anche il recupero di parte dell'informazione
+ cifrata.
+ \item \textbf{Testo in chiaro noto}: l'attaccante ha a disposizione sia del testo cifrato si del testo in chiaro ciò permette di dedurre la chiave di cifratura. 
+ \par Durante la seconda guerra mondiale questa tipologia di attacco fu utilizzata dagli alleati per decifrare testi riservati dei nazisti. Gli alleati avevano testi in chiaro noti
+ corti detti \textit{crib}, che si riferivano a informazioni generali sul campo di battaglia. Attraverso queste breve sequenze note di testo in chiaro potevano cercare di arrivare 
+ ad individuare la chiave di cifratura.
+ \item \textbf{Testo in chiaro scelto}: l'attaccante riesce a produrre del testo in chiaro da far decifrare per ottenere un testo cifrato con l'obiettivo di ottenere quante più
+ informazioni sul testo cifrato da quale dedurre quante più informazioni sugli schemi di cifratura. Nel peggiore dei casi queste informazioni conducono a identificare la chiave di 
+ cifratura.
+ \par Nella seconda guerra mondiale gli alleati inducevano il nemico a reinviare messaggi relativi ad azioni note, come per esempio sulla bonifica di campi minati. Questa tecnica 
+ detta \textit{gardering} portò alla conoscenza di maggiori informazioni riguardo agli schemi di cifratura utilizzati con \textit{Enigma}\footnote{Enigma è il nome in codice della macchina
+ di cifratura utilizzata dai nazisti durante la seconda guerra mondiale per produrre ipotetici testi cifrati. Questa tecnica di cifratura fu violata da Rejeweski, Zygalski, Rozycki 
+ intorno al 1939 e inviaro le informazioni agli Inglesi per contrastare la potenza dei Tedeschi.}
+ \item \textbf{Chiavi correlate}: in questo attacco è a disposizione dell'attaccante la possibilità di verificare le risposte dell'algoritmo con l'utilizzo di svariate chiavi di 
+ cifrazione inizialmente ignote, ma di cui conosce sostanzialmente le proprietà per la loro creazione. 
+ \par Un esempio di utilizzo di questa tecnica di attacco si ha nella possibilità di violare reti WIFI protette con l'algoritmo \textit{WEP}. 
+ Questo utilizza l'algoritmo del RC4, famoso algoritmo a flusso nel quale la chiave non deve essere usata una sola volta, per generare la chiave di cifratura.
+ La chiave del WEP è una concatenazione tra la chiave inserita manualmente dall'utente, per questo si presuppone che venga sostituita di rado, con una seconda per non
+ violare il RC4. La seconda parte del chiave è il \textit{Vettore di Inizializzazione} di 24bit. Utilizzando il paradosso del compleanno ci si attende che ogni 4096 pacchetti 
+ due di essi condividono lo stesso \textit{VI} e quindi lo stesso RC4. Per ovviare a questo bug di sicurezza si è passati a proteggere le reti WIFI con l'algoritmo WPA.
+\end{itemize}
+\subsection{Crittanalisi Differenziale}
+Nel 1990 Biham e Shamir presentarono alla comunità crittografica un nuovo concetto di crittoanalisi chiamata \textbf{Crittanalisi Differenziale}.
+Questa tecnica prevede di confrontare due testi cifrati e calcolarne le differenze partendo da una coppia di testi in chiaro opportunamente scelti e ricavarne informazioni relative
+alla chiave di cifratura utilizzata. \'E intuitivo considerare che la differenza tra due sequenze di bit si possa eseguire attraverso l'operazione di XOR, quindi avendo inserito
+nell'algoritmo la chiave tramite operazione di XOR su $E(R_{i-1}$ eseguendo nuovamente l'operazione di XOR su due sequenze in input si riesce ad eliminare la casualità inserita nel 
+sistema dalla chiave.
+
+\paragraph{Esempio dell'analisi differenziale} Si esegue l'analisi differenziale su un sistema DES a 4 round. 
+\\ Si ipotizza, sotto l'ipotesi di Kerckhoff, che l'attaccante abbiamo piena conoscenza del sistema, ovvero conosca l'input e il corrispettivo output prodotto 
+ed inoltre ha accesso agli S-box del sistema, di seguito riportati.
+L'attaccante vuole solamente ottenere informazioni sulla chiave utilizzata dall'algoritmo.
+
+\begin{table}[ht] 
+\caption{S$_1$-box} % title of Table 
+\centering % used for centering table 
+\begin{tabular}{c c c c c c c c} % centered columns (4 columns) 
+\hline %inserts double horizontal lines 
+010 & 010 & 001 & 110 & 011 & 100 & 111 & 000\\
+001 & 100 & 110 & 010 & 000 & 111 & 101 & 011\\
+\hline %inserts single line 
+\end{tabular} 
+\label{table:s1_example} % is used to refer this table in the text 
+\end{table}
+
+\begin{table}[ht] 
+\caption{S$_2$-box} % title of Table 
+\centering % used for centering table 
+\begin{tabular}{c c c c c c c c} % centered columns (4 columns) 
+\hline %inserts double horizontal lines 
+100 & 000 & 110 & 101 & 111 & 001 & 011 & 010\\
+101 & 011 & 000 & 111 & 110 & 010 & 001 & 100\\
+\hline %inserts single line 
+\end{tabular} 
+\label{table:s2_example} % is used to refer this table in the text 
+\end{table}
+
+Con un attenta analisi probabilistica su i due S-box, ci si accorge che prese le coppie di input $f(R_0,K_1)$ e $f(R^*_0,K_1)$ con
+\[f(R_0,K_1) \oplus f(R^*_0,K_1)=0011\]
+al S$_1$-box ben 12 producono lo stesso output $011$. Questo discostamento notevole rispetto al valore atteso di soli due output con valore uguale ci aiuta nel calcolo della chiave.
+Anche l'S$_2$-box ha un punto debole. Infatti considerando tra le 16 coppie in input le coppie con 
+\[f(R_0,K_1) \oplus f(R^*_0,K_1)=1100\]
+ben 8 producono un output $010$.
+
+Ora considerando:
+\[R'_0 = R_0 \oplus R^*_0 = 001100\]
+poichè la funzione di espansione genera un output:
+\[ E(R') = 00111100\]
+quindi abbiamo che la somma XOR in input ai due S-box verifica le nostre premesse:
+\begin{equation}
+  \label{eq:output_S_1} input(S_1)=0011 
+\end{equation}
+\begin{equation}
+  \label{eq:output_S_2} input(S_2)=1100 
+\end{equation}
+Ipotizzando di poter considerare i due input indipendenti si ottiene:
+\[\left .
+    \begin{array}{l l}
+      P\eqref{eq:output_S_1}={12 \over 16}\\
+      P\eqref{eq:output_S_2} = {8 \over 16}
+    \end{array}
+  \right \} \to P\eqref{eq:output_S_1}*P\eqref{eq:output_S_2}={12 \over 16}*{8 \over 16}\]
+con P ad indicare la probabilità di ottenere in uscita l'output. 
+Purtroppo i due input non sono indipendenti avendo utilizzato la funzione di espansione che porta i bit 3 e 4 sia nel S$_1$-box che nel S$_2$-box. Quindi 
+\end{document}  
