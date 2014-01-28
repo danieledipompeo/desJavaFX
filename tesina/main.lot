@@ -3,7 +3,8 @@
 \contentsline {table}{\numberline {2.1}{\ignorespaces Tabella di shifting della chiave di round}}{5}{table.15}
 \contentsline {table}{\numberline {2.2}{\ignorespaces Tabella della permutazione della chiave di round}}{6}{table.17}
 \contentsline {table}{\numberline {2.3}{\ignorespaces Permutazione iniziale}}{6}{table.20}
-\contentsline {table}{\numberline {2.4}{\ignorespaces Permutazione di espansione}}{7}{table.25}
-\contentsline {table}{\numberline {2.5}{\ignorespaces Esempio di un S$_i$-box}}{7}{table.27}
-\contentsline {table}{\numberline {2.6}{\ignorespaces S$_1$-box}}{10}{table.39}
-\contentsline {table}{\numberline {2.7}{\ignorespaces S$_2$-box}}{10}{table.40}
+\contentsline {table}{\numberline {2.4}{\ignorespaces Permutazione di espansione}}{7}{table.26}
+\contentsline {table}{\numberline {2.5}{\ignorespaces Tabella Permutazione di output S-box}}{7}{table.27}
+\contentsline {table}{\numberline {2.6}{\ignorespaces Esempio di un S$_i$-box}}{8}{table.29}
+\contentsline {table}{\numberline {2.7}{\ignorespaces S$_1$-box}}{13}{table.48}
+\contentsline {table}{\numberline {2.8}{\ignorespaces S$_2$-box}}{13}{table.49}

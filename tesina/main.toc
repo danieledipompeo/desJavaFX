@@ -10,8 +10,14 @@
 \contentsline {paragraph}{L'algoritmo di cifratura}{6}{section*.18}
 \contentsline {paragraph}{L'agoritmo di decifratura}{7}{section*.23}
 \contentsline {paragraph}{La funzione $f(R, K_i)$}{7}{section*.24}
-\contentsline {paragraph}{Gli S-box}{7}{section*.26}
-\contentsline {section}{\numberline {2.3}Attacchi all'algoritmo}{8}{section.34}
-\contentsline {subsection}{\numberline {2.3.1}Tipologia di attacchi al sistema}{8}{subsection.35}
-\contentsline {subsection}{\numberline {2.3.2}Crittanalisi Differenziale}{10}{subsection.37}
-\contentsline {paragraph}{Esempio dell'analisi differenziale}{10}{section*.38}
+\contentsline {paragraph}{Gli S-box}{7}{section*.28}
+\contentsline {section}{\numberline {2.3}Modalit\IeC {\`a} operative del DES}{8}{section.37}
+\contentsline {paragraph}{Electronic CodeBook}{9}{section*.38}
+\contentsline {paragraph}{Cipher Block Chaining}{9}{section*.39}
+\contentsline {paragraph}{Chipher FeedBack}{9}{section*.40}
+\contentsline {paragraph}{Output FeedBack}{10}{section*.41}
+\contentsline {paragraph}{Counter}{10}{section*.42}
+\contentsline {section}{\numberline {2.4}Attacchi all'algoritmo}{11}{section.43}
+\contentsline {subsection}{\numberline {2.4.1}Tipologia di attacchi al sistema}{11}{subsection.44}
+\contentsline {subsection}{\numberline {2.4.2}Crittanalisi Differenziale}{12}{subsection.46}
+\contentsline {paragraph}{Esempio dell'analisi differenziale}{12}{section*.47}
