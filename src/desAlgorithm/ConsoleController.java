@@ -25,6 +25,15 @@ public class ConsoleController implements Initializable {
         console.appendText("\n");
     }
 
+    public static void pause(){
+        System.out.println("Press Any Key To Continue...");
+        new java.util.Scanner(System.in).nextLine();
+    }
+
+    public static void clear(){
+        console.clear();
+    }
+
     /**
      * It shall be used to set the current main scene
      * @param application

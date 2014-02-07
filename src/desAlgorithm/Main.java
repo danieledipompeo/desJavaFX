@@ -1,6 +1,18 @@
-/*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+/**
+ * this software released under MIT License
+ * This is a second part of the Cryptography university exam
+ * I implemented the Simple DES in order to encrypt and decrypt
+ * This software allows to use 2 operative modes:
+ *   1) Electronic CodeBook
+ *      in this mode is necessary to use multiples of 12 bits
+ *   2) Counter
+ *      in this mode the software encrypts blocks 8 bits
+ *
+ * @author: Daniele Di Pompeo (dipompeodaniele@gmail.com)
+ * @url: http://www.linkedin.com/profile/view?id=148386176
+ *
  */
+
 package desAlgorithm;
 
 import java.io.InputStream;
@@ -44,14 +56,18 @@ public class Main extends Application {
             stage.setMinWidth(MINIMUM_WINDOW_WIDTH);
             stage.setMinHeight(MINIMUM_WINDOW_HEIGHT);
             gotoEncrypt();
+            primaryStage.setX(10);
+            primaryStage.setY(150);
             primaryStage.show();
 
             Stage consoleStage = new Stage();
-            Parent consoleParent = FXMLLoader.load(getClass().getResource("consoleScene.fxml"));
+            Parent consoleParent = FXMLLoader.load(getClass().getResource("../layout/consoleScene.fxml"));
             Scene consoleScene = new Scene(consoleParent);
             consoleStage.setScene(consoleScene);
             consoleStage.setTitle("console of S-DES");
 
+            consoleStage.setX(primaryStage.getX()+primaryStage.getWidth()+20);
+            consoleStage.setY(primaryStage.getY());
             consoleStage.show();
 
         } catch (Exception ex) {
@@ -64,7 +80,7 @@ public class Main extends Application {
      */
     private void gotoEncrypt() {
         try {
-            EncryptionController encryption = (EncryptionController) replaceSceneContent("alice&bob.fxml");
+            DESGuiController encryption = (DESGuiController) replaceSceneContent("../layout/alice&bob.fxml");
             encryption.setApp(this);
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

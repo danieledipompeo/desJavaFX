@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" fx:id="bobAndAlice" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="461.0" prefWidth="800.0000999999975" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/2.2" fx:controller="desAlgorithm.DESGuiController">
+    <children>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="15.0" layoutY="156.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../../img/profileiconimage.png"/>
+            </image>
+        </ImageView>
+        <TextArea fx:id="senderTextArea" layoutX="223.0" layoutY="214.0" prefHeight="35.0" prefWidth="325.0"
+                  wrapText="true"/>
+        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="617.0" layoutY="298.0" pickOnBounds="true"
+                   preserveRatio="true">
+            <image>
+                <Image url="@../../img/icon-idea1-profile1.jpg"/>
+            </image>
+        </ImageView>
+        <TextArea id="recei" fx:id="recipientTextArea" layoutX="287.0" layoutY="373.0" prefHeight="35.0"
+                  prefWidth="325.0" wrapText="true"/>
+        <Button id="encrypt" fx:id="encryption" layoutX="379.0" layoutY="267.0" mnemonicParsing="false"
+                onAction="#encrypt" text="send message to Alice"/>
+        <Button fx:id="decryptionMessageBtn" layoutX="415.0" layoutY="426.0" mnemonicParsing="false" onAction="#decrypt"
+                text="receive message from Bob"/>
+        <ImageView fx:id="questionMark" fitHeight="68.0" fitWidth="68.0" layoutX="658.0" layoutY="230.0"
+                   pickOnBounds="true" preserveRatio="true" styleClass="question-mark" visible="false">
+            <image>
+                <Image url="@../../img/question_mark.png"/>
+            </image>
+        </ImageView>
+        <ImageView fx:id="okMark" fitHeight="68.0" fitWidth="68.0" layoutX="658.0" layoutY="230.0" pickOnBounds="true"
+                   preserveRatio="true" styleClass="question-mark" visible="false">
+            <image>
+                <Image url="@../../img/ok_mark.png"/>
+            </image>
+        </ImageView>
+        <ToggleButton fx:id="ecbModeBtn" layoutX="228.0" layoutY="24.0" mnemonicParsing="false" onAction="#setECBModes"
+                      prefHeight="71.0" prefWidth="160.0" text="ECB MODE"/>
+        <ToggleButton fx:id="ctrModeBtn" layoutX="430.0" layoutY="24.0" mnemonicParsing="false" onAction="#setCTRModes"
+                      prefHeight="71.0" prefWidth="160.0" text="CTR MODE"/>
+        <Button fx:id="resetBtn" layoutX="15.0" layoutY="24.0" mnemonicParsing="false" text="Reset"
+                onAction="#resetScene"/>
+    </children>
+</AnchorPane>

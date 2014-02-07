@@ -9,6 +9,7 @@ class DesAlgorithm{
     private static String[][] sBoxTwo = new String[2][8];
     private static int maxRoundNumber = 4;
     private static StringBuilder sb;
+    private static char[] IV;
 
     /**
      *
@@ -19,71 +20,63 @@ class DesAlgorithm{
     public static String encrypt(String textToEncrypt){
 
         char[] textToEncryptAsArray = textToEncrypt.toCharArray();
-        char[] leftPart;
-        char[] rightPart;
-        char[] test = new char[12];
+        char[] leftPart, rightPart, xorResult, roundResult;
+        char[] textBlockRound = new char[12];
 
-        String keyRound;
-        char[] xorResult;
-        String textToEncryptAfterRound;
-        int textToEncryptAsArrayLenght;
+        int textToEncryptAsArrayLenght = textToEncryptAsArray.length;
+        char[] result = new char[textToEncryptAsArrayLenght];
+        String keyRound, textToEncryptAfterRound, feistelFunction;
 
-        textToEncryptAsArrayLenght = textToEncryptAsArray.length;
-        char[] aux = new char[textToEncryptAsArrayLenght];
+        generateKey();
 
         ConsoleController.toConsole("@@@@@@@@@@@ START Encrypt @@@@@@@@@@@");
 
         for(int j=0; j < (textToEncryptAsArrayLenght/12); j++)
         {
-            System.arraycopy(textToEncryptAsArray,(j*12), test, 0, 12);
+            System.arraycopy(textToEncryptAsArray,(j*12), textBlockRound, 0, 12);
 
-            for(int countRound=0;countRound < maxRoundNumber;countRound++){
+            for(int countRound=0; countRound < maxRoundNumber;countRound++){
 
-                //calculate the round key
+                //calculates the round key
                 keyRound = DesAlgorithm.getKeyRound(countRound+1, key);
 
-                ConsoleController.toConsole("\n\t ********** START ROUND "+(countRound+1)+" ****************");
-                ConsoleController.toConsole("\t\t keyRound: "+keyRound);
+                leftPart = takeBitFromArray(textBlockRound, 0, 6);
+                rightPart = takeBitFromArray(textBlockRound, 6, 6);
 
-                leftPart = takeBitFromArray(test, 0, 6);
-                ConsoleController.toConsole("\t\t L("+countRound+"): "+ new String(leftPart));
-
-                rightPart = takeBitFromArray(test, 6, 6);
-                ConsoleController.toConsole("\t\t R("+countRound+"): "+ new String(rightPart));
-
-                ConsoleController.toConsole("\t\t E(R"+countRound+"): "+ new String(expansionFunction(rightPart)));
-
+                //calculates in first the Expantion function E(Ri-i) and after the XOR opertion between E(Ri-1) and Ki
                 xorResult = xor( expansionFunction(rightPart) ,keyRound.toCharArray());
 
-                ConsoleController.toConsole("\t\t E(R"+countRound+") xor K["+countRound+1+"] result: "+ new String(xorResult));
-
-                ConsoleController.toConsole("\t\t SBox1 result: "+ sBoxOneResult(takeBitFromArray(xorResult,0,4)));
-                ConsoleController.toConsole("\t\t SBox2 result: "+ sBoxTwoResult(takeBitFromArray(xorResult, 4, 4)));
-
-                String feistelFunction = sBoxOneResult(takeBitFromArray(xorResult,0,4))+
+                feistelFunction = sBoxOneResult(takeBitFromArray(xorResult,0,4))+
                         sBoxTwoResult(takeBitFromArray(xorResult,4,4));
-                ConsoleController.toConsole("\t\t Feistel Function result: "+ new String(feistelFunction));
+                roundResult = xor(leftPart,feistelFunction.toCharArray());
 
-                char[] roundResult = xor(leftPart,feistelFunction.toCharArray());
-                ConsoleController.toConsole("\t\t (L("+countRound+") xor Feistel Function): "+ new String(roundResult));
-
+                //Creates a string from Right and Left Part
                 sb = new StringBuilder();
                 sb.append(rightPart);
                 sb.append(roundResult);
                 textToEncryptAfterRound = new String(sb);
-                test = textToEncryptAfterRound.toCharArray();
+                textBlockRound = textToEncryptAfterRound.toCharArray();
 
+                // prints to Console Scene the results
+                ConsoleController.toConsole("\n\t ********** START ROUND "+(countRound+1)+" ****************");
+                ConsoleController.toConsole("\t\t keyRound: "+keyRound);
+                ConsoleController.toConsole("\t\t L("+countRound+"): "+ new String(leftPart));
+                ConsoleController.toConsole("\t\t R("+countRound+"): "+ new String(rightPart));
+                ConsoleController.toConsole("\t\t E(R"+countRound+"): "+ new String(expansionFunction(rightPart)));
+                ConsoleController.toConsole("\t\t E(R"+countRound+") xor K["+countRound+1+"] result: "+ new String(xorResult));
+                ConsoleController.toConsole("\t\t SBox1 result: "+ sBoxOneResult(takeBitFromArray(xorResult,0,4)));
+                ConsoleController.toConsole("\t\t SBox2 result: "+ sBoxTwoResult(takeBitFromArray(xorResult, 4, 4)));
+                ConsoleController.toConsole("\t\t Feistel Function result: "+ new String(feistelFunction));
+                ConsoleController.toConsole("\t\t (L("+countRound+") xor Feistel Function): "+ new String(roundResult));
                 ConsoleController.toConsole("\t\t textToEncrypt after round: "+ new String(textToEncryptAfterRound));
                 ConsoleController.toConsole("\t ********** END ROUND "+(countRound+1)+" ****************");
             }
-            System.arraycopy(test,0,aux,(j*12),12);
-            ConsoleController.toConsole("risultato giro "+j+": "+new String(aux));
+            System.arraycopy(textBlockRound, 0, result, (j * 12), 12);
         }
-        String back = new String(aux);
-        ConsoleController.toConsole("stringa criptata: "+back);
-
+        String resultAsString = new String(result);
         ConsoleController.toConsole("@@@@@@@@@@@ END Encrypt @@@@@@@@@@@");
-        return back;
+
+        return resultAsString;
     }
 
     /**
@@ -93,90 +86,157 @@ class DesAlgorithm{
      */
     public static String decrypt(String textToEncrypt){
 
-        char[] leftPart;
-        String keyRound;
-        char[] rightPart;
-        char[] xorResult;
-        String textToEncryptAfterRound = "goofy";
-
-        //generates the algorithm key
-        DesAlgorithm.generateKey("010011001");
-        /**
-         * Is the shifting operation as first action to decrypt
-         */
+        char[] leftPart, rightPart, xorResult;
+        char[] textBlockRound = new char[12];
         char[] textToEncryptAsArray = textToEncrypt.toCharArray();
-
-        StringBuilder sb;
+        String keyRound, textToEncryptAfterRound;
         int textToEncryptAsArrayLenght = textToEncryptAsArray.length;
 
-        char[] test = new char[12];
-        char[] aux = new char[textToEncryptAsArrayLenght];
+        char[] result = new char[textToEncryptAsArrayLenght];
 
-        ConsoleController.toConsole("\n\n\n");
+        StringBuilder sb;
+
+        //generates the algorithm key
+        generateKey();
+
         ConsoleController.toConsole("@@@@@@@@@@@ START Decrypt @@@@@@@@@@@");
 
         for(int j=0; j < (textToEncryptAsArrayLenght/12); j++)
         {
-            System.arraycopy(textToEncryptAsArray,(j*12), test, 0, 12);
+            System.arraycopy(textToEncryptAsArray,(j*12), textBlockRound, 0, 12);
 
-            test = getPermutation(test);
+            textBlockRound = getPermutation(textBlockRound);
 
             for(int countRound=maxRoundNumber; countRound > 0;countRound--){
 
-                //calculate the round key
+                //calculates the round key
                 keyRound = DesAlgorithm.getKeyRound(countRound, key);
-
-                ConsoleController.toConsole("\n\t ********** START ROUND "+(countRound)+" ****************");
-                ConsoleController.toConsole("\t\t keyRound: "+keyRound);
-
-                leftPart = takeBitFromArray(test, 0, 6);
-                ConsoleController.toConsole("\t\t L("+countRound+"): "+ new String(leftPart));
-
-                rightPart = takeBitFromArray(test, 6, 6);
-                ConsoleController.toConsole("\t\t R("+countRound+"): "+ new String(rightPart));
-
-                ConsoleController.toConsole("\t\t E(R"+countRound+"): "+ expansionFunction(rightPart));
-
+                leftPart = takeBitFromArray(textBlockRound, 0, 6);
+                rightPart = takeBitFromArray(textBlockRound, 6, 6);
+                //calculates in first the Expantion function E(Ri-i) and after the XOR opertion between E(Ri-1) and Ki
                 xorResult = xor( expansionFunction(rightPart) ,keyRound.toCharArray() );
-
-                ConsoleController.toConsole("\t\t E(R"+countRound+") xor K["+countRound+1+"] result: "+ new String(xorResult));
-
-                ConsoleController.toConsole("\t\t SBox1 result: "+ new String(sBoxOneResult(takeBitFromArray(xorResult,0,4))));
-                ConsoleController.toConsole("\t\t SBox2 result: "+ new String(sBoxTwoResult(takeBitFromArray(xorResult, 4, 4))));
-
-                String feistelFunction = sBoxOneResult(takeBitFromArray(xorResult,0,4))+
+                String feistelFunctionResult = sBoxOneResult(takeBitFromArray(xorResult,0,4))+
                         sBoxTwoResult(takeBitFromArray(xorResult,4,4));
-                ConsoleController.toConsole("\t\t Feistel Function result: "+ feistelFunction);
-
-                char[] roundResult = xor(leftPart,feistelFunction.toCharArray());
-                ConsoleController.toConsole("\t\t (L("+countRound+") xor Feistel Function): "+ new String(roundResult));
-
+                char[] roundResult = xor(leftPart, feistelFunctionResult.toCharArray());
+                //Creates a string from Right and Left Part
                 sb = new StringBuilder();
                 sb.append(rightPart);
                 sb.append(roundResult);
                 textToEncryptAfterRound = new String(sb);
+
+                //prints to Console Scene the results
+                ConsoleController.toConsole("\n\t ********** START ROUND "+(countRound)+" ****************");
+                ConsoleController.toConsole("\t\t keyRound: "+keyRound);
+                ConsoleController.toConsole("\t\t L("+countRound+"): "+ new String(leftPart));
+                ConsoleController.toConsole("\t\t R("+countRound+"): "+ new String(rightPart));
+                ConsoleController.toConsole("\t\t E(R"+countRound+"): "+ expansionFunction(rightPart));
+                ConsoleController.toConsole("\t\t E(R"+countRound+") xor K["+countRound+1+"] result: "+ new String(xorResult));
+                ConsoleController.toConsole("\t\t SBox1 result: "+ new String(sBoxOneResult(takeBitFromArray(xorResult,0,4))));
+                ConsoleController.toConsole("\t\t SBox2 result: "+ new String(sBoxTwoResult(takeBitFromArray(xorResult, 4, 4))));
+                ConsoleController.toConsole("\t\t Feistel Function result: "+ feistelFunctionResult);
+                ConsoleController.toConsole("\t\t (L("+countRound+") xor Feistel Function): "+ new String(roundResult));
                 ConsoleController.toConsole("\t\t textToEncrypt after round: "+ new String(textToEncryptAfterRound));
                 ConsoleController.toConsole("\t ********** END ROUND "+(countRound+1)+" ****************");
 
-                test = textToEncryptAfterRound.toCharArray();
+                textBlockRound = textToEncryptAfterRound.toCharArray();
             }
-            test = getPermutation(test);
+            textBlockRound = getPermutation(textBlockRound);
 
-            System.arraycopy(test,0,aux,(j*12),12);
+            System.arraycopy(textBlockRound,0,result,(j*12),12);
         }
 
-        String back = new String(binary2Text(aux));
-
-        ConsoleController.toConsole("\t Stringa descriptata: "+back);
         ConsoleController.toConsole("@@@@@@@@@@@ END Decrypt @@@@@@@@@@@");
 
-        return back;
+        return new String(binary2Text(result));
+    }
+
+    public static String CTREncrypt(String textToEncrypt){
+
+        char[] textToEncryptAsCharArray = textToEncrypt.toCharArray();
+        char[] P = new char[8];
+        char[] O = new char[8];
+        char[] result = new char[textToEncryptAsCharArray.length];
+        int textToEncryptLength = textToEncryptAsCharArray.length/8;
+        char[] IV = encrypt(new String(generateInitialVector())).toCharArray();
+
+        ConsoleController.toConsole("IV encypted: " + new String(IV));
+        ConsoleController.toConsole("binary string of Text To Encrypt: " + new String(textToEncrypt));
+
+        for(int i=0; i<textToEncryptLength; i++){
+
+            textToEncrypt.getChars(8 * i, 8 + 8 * i, P, 0);
+            new String(IV).getChars(0, 8, O, 0);
+            plusOne(IV);
+            System.arraycopy(xor(P,O),0,result,8*i,8);
+        }
+
+        return new String(result);
+    }
+
+    public static String CTRDecrypt(String textToDecrypt){
+
+        char[] textToEncryptAsCharArray = textToDecrypt.toCharArray();
+        int textToDecryptLength = textToEncryptAsCharArray.length/8;
+        char[] P = new char[8];
+        char[] O = new char[8];
+        char[] result = new char[textToEncryptAsCharArray.length];
+        char[] IV = encrypt(new String(generateInitialVector())).toCharArray();
+
+        ConsoleController.toConsole("IV encrypted: " + new String(IV));
+        ConsoleController.toConsole("binary string of Text To Decrypt: " + new String(textToDecrypt));
+
+        for(int i=0; i < textToDecryptLength; i++){
+            textToDecrypt.getChars(8*i,8+8*i,P,0);
+            new String(IV).getChars(0,8,O,0);
+            plusOne(IV);
+
+            System.arraycopy(xor(P,O),0,result,8*i,8);
+        }
+
+        return new String(binary2Text(result));
+    }
+
+
+    public static char[] generateInitialVector(){
+        IV = new String("010011000110011001001100011001100100110001100110").toCharArray();
+        return IV;
     }
 
     public static void generateKey(){
         //generates the algorithm key
         generateKey("010011001");
     }
+
+    private static void plusOne(char[] IV){
+        int IVLength = IV.length;
+        int riportoAddizione = 0;
+        int i = 0;
+
+        do{
+            if(i == 0){
+                if(IV[i]=='0'){
+                    IV[i] = '1';
+                    riportoAddizione=0;
+                }
+                else{
+                    IV[i] = '0';
+                    riportoAddizione = 1;
+                }
+            }
+            else{
+                if(IV[i]=='0'){
+                    IV[i] = '1';
+                    riportoAddizione=0;
+                }
+                else{
+                    IV[i] = '0';
+                    riportoAddizione = 1;
+                }
+            }
+            i++;
+        }while(riportoAddizione!=0 && i < IVLength);
+    }
+
 
     /**
      *
