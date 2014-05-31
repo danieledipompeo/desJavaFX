@@ -9,7 +9,7 @@ This project has been developed for my cryptography academic exam
 ### How do I get set up? ###
 
 * Set up
-It is developed with javaFX and java ver.7.  
+It is developed with javaFX and java7.  
 Thus in your enviroment you just configure java to use this project. 
 
 ### Who do I talk to? ###
