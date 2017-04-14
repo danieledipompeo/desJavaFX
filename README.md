@@ -2,9 +2,9 @@ README
 =========
 ### What is this repository for? ###
 
-*It is a simple project to examine how the DES cryptograpgic algorithm works.  
+* It is a simple project to examine how the DES cryptographic algorithm works.  
 This project has been developed for my cryptography academic exam
-* Version 1.0
+  * Version 1.0
 
 ### How do I get set up? ###
 
@@ -15,4 +15,4 @@ Thus in your enviroment you just configure java to use this project.
 ### Who do I talk to? ###
 
 * I am the unique admin of this repo.  
-If you want tell me something, you just have to send me an email to dipompeodaniele@gmail.com
+If you want tell me something, you just have to send me a message
